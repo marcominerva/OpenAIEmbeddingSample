@@ -7,7 +7,7 @@ The embeddings are stored in a SQL Server database. The repository contains a co
 
 To execute the application:
 - Create a database in SQL Server
-- Execute the [Scripts.sql]() file to create and populate the tables that will contain the embeddings
-- Open the [Costants.cs]() file and set the connection string to the database and the other required parameters
+- Execute the [Scripts.sql](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Scripts.sql) file to create and populate the tables that will contain the embeddings
+- Open the [Costants.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/Constants.cs) file and set the connection string to the database and the other required parameters
 
-Refer to the [EmbeddingService.cs]() file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database.
+Refer to the [EmbeddingService.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/EmbeddingService.cs) file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database.
