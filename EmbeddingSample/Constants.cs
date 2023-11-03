@@ -6,6 +6,6 @@ internal class Constants
 
     public const string Endpoint = "";
     public const string ApiKey = "";
-    public const string ChatCompletionModel = "";
-    public const string EmbeddingModel = "";
+    public const string ChatCompletionModel = "gpt-4-32k";
+    public const string EmbeddingModel = "text-embedding-ada-002";
 }

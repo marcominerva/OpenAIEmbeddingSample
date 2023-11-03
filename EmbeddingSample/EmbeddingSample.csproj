@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.1.15" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta3" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta4" />
 		<PackageReference Include="PdfPig" Version="0.1.8" />
 		<PackageReference Include="SharpToken" Version="1.2.12" />
 		<PackageReference Include="TinyHelpers" Version="2.0.35" />

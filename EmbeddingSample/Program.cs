@@ -4,7 +4,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
 
-var kernel = Kernel.Builder
+var kernel = new KernelBuilder()
     .WithAzureTextEmbeddingGenerationService(Constants.EmbeddingModel, Constants.Endpoint, Constants.ApiKey)
     .WithAzureChatCompletionService(Constants.ChatCompletionModel, Constants.Endpoint, Constants.ApiKey)
     .Build();
