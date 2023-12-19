@@ -1,23 +1,29 @@
 ﻿using System.Text;
 using EmbeddingSample;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.Embeddings;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Embeddings;
 
-var kernel = new KernelBuilder()
-    .WithAzureTextEmbeddingGenerationService(Constants.EmbeddingModel, Constants.Endpoint, Constants.ApiKey)
-    .WithAzureChatCompletionService(Constants.ChatCompletionModel, Constants.Endpoint, Constants.ApiKey)
-    .Build();
+var builder = Kernel.CreateBuilder();
 
-var textEmbeddingGeneration = kernel.GetService<ITextEmbeddingGeneration>();
-var chatCompletion = kernel.GetService<IChatCompletion>();
+builder.Services.AddLogging(builder => builder.AddConsole());
+builder.Services.AddAzureOpenAIChatCompletion(Constants.ChatCompletionModel, Constants.Endpoint, Constants.ApiKey);
+builder.Services.AddAzureOpenAITextEmbeddingGeneration(Constants.EmbeddingModel, Constants.Endpoint, Constants.ApiKey);
 
-var embeddingService = new EmbeddingService(textEmbeddingGeneration);
+var kernel = builder.Build();
+
+var textEmbeddingGenerationService = kernel.GetRequiredService<ITextEmbeddingGenerationService>();
+var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+
+var embeddingService = new EmbeddingService(textEmbeddingGenerationService);
 
 //await embeddingService.GenerateChunkedDocumentsAsync();
 //await embeddingService.GenerateChunkedDocumentEmbeddingsAsync();
 
-var chat = chatCompletion.CreateNewChat("""
+var chat = new ChatHistory("""
             You are an AI assistant that helps people find information.
             You can use only the information provided in this chat to answer questions.
             If you don't know the answer, reply suggesting to refine the question.
@@ -41,7 +47,10 @@ do
     question = await CreateQuestionAsync(question);
     chat.AddUserMessage(question);
 
-    await foreach (var response in chatCompletion.GenerateMessageStreamAsync(chat))
+    await foreach (var response in chatCompletionService.GetStreamingChatMessageContentsAsync(chat, new OpenAIPromptExecutionSettings
+    {
+        MaxTokens = 400,
+    }))
     {
         Console.Write(response);
         answer.Append(response);
@@ -71,8 +80,8 @@ async Task<string> CreateQuestionAsync(string question)
 
     chat.AddUserMessage(embeddingQuestion);
 
-    embeddingQuestion = await chatCompletion.GenerateMessageAsync(chat);
-    chat.AddAssistantMessage(embeddingQuestion);
+    var messageContent = await chatCompletionService.GetChatMessageContentAsync(chat);
+    chat.AddAssistantMessage(messageContent.Content);
 
     var embeddings = await embeddingService.GetEmbeddingAsync(embeddingQuestion);
 
@@ -102,12 +111,12 @@ async Task<string> CreateQuestionAsync(string question)
 //    "Il territorio comunale di Triora - il più esteso della provincia imperiese - è situato quasi interamente nella valle Argentina e in minima parte nella vallata del torrente Tanarello (ramo sorgentifero del fiume del Tanaro), nel cui bacino sorge la frazione di Monesi di Triora. Il centro principale (Triora) sorge a 780 m s.l.m. sulle estreme pendici meridionali di un costone montuoso che digrada dal massiccio del Saccarello (2201 m), verso la stretta conca di fondovalle percorsa dal torrente Argentina. Tra le vette del territorio triorese il monte Fronté (2151 m), la Cima Garlenda (2141 m), la Punta di Santa Maria (2138 m), il monte Cimonasso (2085 m), il monte Grai (2013 m), la Cima dell'Ortica (1840 m), la Rocca Rossa (1804 m), il monte Collardente (1777 m), il Carmo Ciaberta (1768 m), il monte Gerbonte (1768 m), la Rocca Barbone (1627 m), il Carmo Gerbontina (1582 m), il monte Giaire (1525 m), la Cima Ubago di Medan (1500 m), la Rocca Penna (1471 m), il monte Croce dei Campi (1425 m), la Rocca Goina (1425 m), la Testa delle Collette (1422 m), il Carmo delle Strade (1402 m), la Cima Bareghi (1390 m), il Colle Belenda (1382 m), il monte Grimperto (1369 m), il monte Croce Castagna (1343 m), il Carmo Binelli (1329 m), il monte Croce di Cetta (1311 m), la Rocca Mea (1307 m), la Rocca Castellaccio (1275 m), il monte Gorda (1268 m), il Bric dei Corvi (1260 m), il Carmo Langan (1204 m), la Cima del Corvo (1185 m), il monte Trono (1182 m). Nel comune è compreso quasi interamente il lago di Tenarda, che è artificiale."
 //};
 
-//var questionEmbedding = await embeddingService.GenerateEmbeddingAsync(question);
+//var questionEmbedding = await textEmbeddingGenerationService.GenerateEmbeddingAsync(question);
 
 //var dataEmbedding = new List<ReadOnlyMemory<float>>();
 //foreach (var text in data)
 //{
-//    var embedding = await embeddingService.GenerateEmbeddingAsync(text);
+//    var embedding = await textEmbeddingGenerationService.GenerateEmbeddingAsync(text);
 //    dataEmbedding.Add(embedding);
 //}
 
@@ -121,6 +130,7 @@ async Task<string> CreateQuestionAsync(string question)
 
 ////var similarity = CosineSimilarity(embedding.Span, embedding.Span);
 ////Console.WriteLine(similarity);
+
 //Console.ReadLine();
 
 //static float CosineSimilarity(ReadOnlySpan<float> x, ReadOnlySpan<float> y)

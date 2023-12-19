@@ -2,22 +2,15 @@
 using Dapper;
 using EmbeddingSample.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.SemanticKernel.AI.Embeddings;
+using Microsoft.SemanticKernel.Embeddings;
 using Microsoft.SemanticKernel.Text;
 using TinyHelpers.Extensions;
 
 namespace EmbeddingSample;
 
-public class EmbeddingService
+public class EmbeddingService(ITextEmbeddingGenerationService textEmbeddingGenerationService)
 {
-    private readonly ITextEmbeddingGeneration textEmbeddingGeneration;
-
-    public EmbeddingService(ITextEmbeddingGeneration textEmbeddingGeneration)
-    {
-        this.textEmbeddingGeneration = textEmbeddingGeneration;
-    }
-
-    public async Task GenerateChunkedDocumentsAsync()
+    public static async Task GenerateChunkedDocumentsAsync()
     {
         using var sqlConnection = new SqlConnection(Constants.ConnectionString);
 
@@ -54,7 +47,7 @@ public class EmbeddingService
 
         foreach (var documentChunk in documentChunks)
         {
-            var embedding = await textEmbeddingGeneration.GenerateEmbeddingAsync(documentChunk.Content);
+            var embedding = await textEmbeddingGenerationService.GenerateEmbeddingAsync(documentChunk.Content);
 
             for (var i = 0; i < embedding.Length; i++)
             {
@@ -72,7 +65,7 @@ public class EmbeddingService
 
     public async Task<IEnumerable<DocumentVectorSearchResult>> GetEmbeddingAsync(string question)
     {
-        var embedding = await textEmbeddingGeneration.GenerateEmbeddingAsync(question);
+        var embedding = await textEmbeddingGenerationService.GenerateEmbeddingAsync(question);
 
         using var sqlConnection = new SqlConnection(Constants.ConnectionString);
 
