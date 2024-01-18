@@ -4,18 +4,19 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <NoWarn>$(NoWarn);SKEXP0011;SKEXP0001;SKEXP0055</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
+      <None Include="..\README.md" Link="README.md" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Azure.Identity" Version="1.10.4" />
-        <PackageReference Include="Dapper" Version="2.1.28" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
+        <PackageReference Include="KernelMemory.MemoryStorage.SqlServer" Version="1.0.3" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+        <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.26.240116.2" />
         <PackageReference Include="Microsoft.SemanticKernel" Version="1.1.0" />
-        <PackageReference Include="PdfPig" Version="0.1.8" />
-        <PackageReference Include="SharpToken" Version="1.2.14" />
-        <PackageReference Include="TinyHelpers" Version="3.0.4" />
     </ItemGroup>
+    
 </Project>

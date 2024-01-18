@@ -1,13 +1,12 @@
 # OpenAI Embeddings Sample
-An example that shows how to using embeddings in a .NET application with SQL Server as Vector Database.
 
-The embeddings are stored in a SQL Server database. The repository contains a couple of books with the corresponding embeddings (in Italian):
-- The strange case of Dr Jekyll and Mr Hyde by Robert Louis Stevenson
-- Treasure Island by Robert Louis Stevenson
+An example that shows how to use [Semantic Kernel](https://github.com/microsoft/semantic-kernel) and [Kernel Memory](https://github.com/microsoft/kernel-memory) to work with embeddings in a .NET application using [SQL Server as Vector Database](https://github.com/kbeaugrand/SemanticKernel.Connectors.Memory.SqlServer).
+
+The embeddings are stored in a SQL Server database and the Vector Search is efficiently performed thanks to COLUMNSTORE indexes.
 
 To execute the application:
 - Create a database in SQL Server
-- Execute the [Scripts.sql](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Scripts.sql) file to create and populate the tables that will contain the embeddings
-- Open the [Costants.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/Constants.cs) file and set the connection string to the database and the other required parameters
+- Open the [AppCostants.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/AppConstants.cs) file and set the connection string to the database and the other required parameters
+- Import some documents in the memory (search for `await kernelMemory.ImportDocumentAsync` in the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file
 
-Refer to the [EmbeddingService.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/EmbeddingService.cs) file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database.
+Refer to the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database using Kernel Memory.
