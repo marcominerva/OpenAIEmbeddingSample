@@ -6,7 +6,7 @@ The embeddings are stored in a SQL Server database and the Vector Search is effi
 
 To execute the application:
 - Create a database in SQL Server
-- Open the [AppCostants.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/AppConstants.cs) file and set the connection string to the database and the other required parameters
+- Open the [AppCostants.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/EmbeddingSample/AppConstants.cs) file and set the connection string to the database and the other required parameters. This example assumes you're using Azure OpenAI, but you can easily update it to use OpenAI or whatever LLM you want. Take a look to **Kernel** and **KernelMemoryBuilder** initialization in the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file
 - Import some documents in the memory (search for `await kernelMemory.ImportDocumentAsync` in the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file
 
 Refer to the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database using Kernel Memory.

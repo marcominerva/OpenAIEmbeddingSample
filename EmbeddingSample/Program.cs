@@ -10,11 +10,14 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 var builder = Kernel.CreateBuilder();
 
 builder.Services.AddLogging(builder => builder.AddConsole());
-builder.Services.AddAzureOpenAIChatCompletion(AppConstants.ChatCompletion.Deployment, AppConstants.ChatCompletion.Endpoint, AppConstants.ChatCompletion.ApiKey);
+builder.Services
+    // If you want to use OpenAI, you need to call .AddOpenAIChatCompletion (with corresponding paramters).
+    .AddAzureOpenAIChatCompletion(AppConstants.ChatCompletion.Deployment, AppConstants.ChatCompletion.Endpoint, AppConstants.ChatCompletion.ApiKey);
 
 var kernel = builder.Build();
 
 var kernelMemory = new KernelMemoryBuilder()
+    // If you want to use OpenAI, you need to call .WithOpenAITextGeneration (with corresponding paramters).
     .WithAzureOpenAITextGeneration(new()
     {
         APIKey = AppConstants.ChatCompletion.ApiKey,
@@ -24,6 +27,7 @@ var kernelMemory = new KernelMemoryBuilder()
         APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
         MaxTokenTotal = AppConstants.ChatCompletion.MaxTokens
     })
+    // If you want to use OpenAI, you need to call .WithOpenAITextEmbeddingGeneration (with corresponding paramters).
     .WithAzureOpenAITextEmbeddingGeneration(new()
     {
         APIKey = AppConstants.Embedding.ApiKey,
@@ -98,7 +102,9 @@ do
     }
     else
     {
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(answer.Result);
+        Console.ResetColor();
     }
 
     Console.WriteLine();
