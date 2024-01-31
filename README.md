@@ -10,3 +10,5 @@ To execute the application:
 - Import some documents in the memory (search for `await kernelMemory.ImportDocumentAsync` in the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file
 
 Refer to the [Program.cs](https://github.com/marcominerva/OpenAIEmbeddingSample/blob/master/Program.cs) file to see how document chunking is performed and how embeddings are calculated, stored and retrieved from the database using Kernel Memory.
+
+If you want to see a manual (explicit) approach to embedding and Vector Search using SQL Server, refer to the [manual-approach branch](https://github.com/marcominerva/OpenAIEmbeddingSample/tree/manual-approach).
