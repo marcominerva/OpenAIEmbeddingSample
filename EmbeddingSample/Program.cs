@@ -74,7 +74,7 @@ async Task<string> CreateQuestionAsync(string question)
         ---
         {question}
         ---
-        You must answer in the same language of the user's question.
+        You must reformulate the question in the same language of the user's question.
         Never add "in this chat", "in the context of this chat", "in the context of our conversation" or something like that in your answer.
         """;
 
