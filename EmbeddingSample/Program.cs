@@ -7,27 +7,8 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-var builder = Kernel.CreateBuilder();
-
-builder.Services.AddLogging(builder => builder.AddConsole());
-builder.Services
-    // If you want to use OpenAI, you need to call .AddOpenAIChatCompletion (with corresponding paramters).
-    .AddAzureOpenAIChatCompletion(AppConstants.ChatCompletion.Deployment, AppConstants.ChatCompletion.Endpoint, AppConstants.ChatCompletion.ApiKey);
-
-var kernel = builder.Build();
-
 var kernelMemory = new KernelMemoryBuilder()
-    // If you want to use OpenAI, you need to call .WithOpenAITextGeneration (with corresponding paramters).
-    .WithAzureOpenAITextGeneration(new()
-    {
-        APIKey = AppConstants.ChatCompletion.ApiKey,
-        Auth = AzureOpenAIConfig.AuthTypes.APIKey,
-        Deployment = AppConstants.ChatCompletion.Deployment,
-        Endpoint = AppConstants.ChatCompletion.Endpoint,
-        APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
-        MaxTokenTotal = AppConstants.ChatCompletion.MaxTokens
-    })
-    // If you want to use OpenAI, you need to call .WithOpenAITextEmbeddingGeneration (with corresponding paramters).
+    // If you want to use OpenAI, you need to call .WithOpenAITextEmbeddingGeneration (with corresponding parameters).
     .WithAzureOpenAITextEmbeddingGeneration(new()
     {
         APIKey = AppConstants.Embedding.ApiKey,
@@ -37,6 +18,17 @@ var kernelMemory = new KernelMemoryBuilder()
         APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
         MaxTokenTotal = 8191
     })
+    // If you want to use OpenAI, you need to call .WithOpenAITextGeneration (with corresponding parameters).
+    .WithAzureOpenAITextGeneration(new()
+    {
+        APIKey = AppConstants.ChatCompletion.ApiKey,
+        Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+        Deployment = AppConstants.ChatCompletion.Deployment,
+        Endpoint = AppConstants.ChatCompletion.Endpoint,
+        APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
+        MaxTokenTotal = AppConstants.ChatCompletion.MaxTokens
+    })
+
     //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent content storage.    
     .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Kernel memory storage for embeddings.
     .WithSearchClientConfig(new()
@@ -54,6 +46,14 @@ var kernelMemory = new KernelMemoryBuilder()
     })
     .Build<MemoryServerless>();
 
+var builder = Kernel.CreateBuilder();
+
+builder.Services.AddLogging(builder => builder.AddConsole());
+builder.Services
+    // If you want to use OpenAI, you need to call .AddOpenAIChatCompletion (with corresponding parameters).
+    .AddAzureOpenAIChatCompletion(AppConstants.ChatCompletion.Deployment, AppConstants.ChatCompletion.Endpoint, AppConstants.ChatCompletion.ApiKey);
+
+var kernel = builder.Build();
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
 // Import documents and web pages to the Kernel memory. The following instructions read, split in chunks and store the embeddings of the documents
