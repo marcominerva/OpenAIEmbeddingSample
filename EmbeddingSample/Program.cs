@@ -28,9 +28,8 @@ var kernelMemory = new KernelMemoryBuilder()
         APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
         MaxTokenTotal = AppConstants.ChatCompletion.MaxTokens
     })
-
-    //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent content storage.    
-    .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Kernel memory storage for embeddings.
+    //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent Content Storage oh file system.    
+    .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Vector Storage for embeddings.
     .WithSearchClientConfig(new()
     {
         EmptyAnswer = "I'm sorry, I haven't found any relevant information about that can be used to answer your question",
@@ -56,8 +55,8 @@ builder.Services
 var kernel = builder.Build();
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
-// Import documents and web pages to the Kernel memory. The following instructions read, split in chunks and store the embeddings of the documents
-// in the Kernel memory vector storage (SQL Server in this example, but other destinations are available). The embeddings are persisted, so you need to
+// Import documents and web pages into Kernel Memory. The following instructions read, split in chunks and store the embeddings of the documents
+// into Kernel Memory Vector Storage (SQL Server in this example, but other destinations are available). The embeddings are persisted, so you need to
 // import the documents only once (unless you want to update the embeddings).
 
 //await kernelMemory.ImportDocumentAsync(@"Taggia.pdf");
@@ -80,12 +79,12 @@ do
 
     question = await CreateQuestionAsync(question);
 
-    // Asks using the embedding search via Kernel memory and the reformulated question.
+    // Asks using the embedding search via Kernel Memory and the reformulated question.
     var answer = await kernelMemory.AskAsync(question, minRelevance: 0.76);
 
     if (answer.NoResult == false)
     {
-        // The answer has been found. Adds it to the chat so that it can be used to reformulated next questions.
+        // The answer has been found. Adds it to the chat so that it can be used to reformulate next questions.
         chat.AddUserMessage(question);
         chat.AddAssistantMessage(answer.Result);
 
