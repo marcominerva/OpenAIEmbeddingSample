@@ -32,7 +32,7 @@ var kernelMemory = new KernelMemoryBuilder()
     .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Vector Storage for embeddings.
     .WithSearchClientConfig(new()
     {
-        EmptyAnswer = "I'm sorry, I haven't found any relevant information about that can be used to answer your question",
+        EmptyAnswer = "I'm sorry, I haven't found any relevant information that can be used to answer your question",
         MaxMatchesCount = 10,
         AnswerTokens = 800
     })
