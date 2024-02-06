@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Azure.Identity" Version="1.10.4" />
-        <PackageReference Include="KernelMemory.MemoryStorage.SqlServer" Version="1.3.0" />
+        <PackageReference Include="KernelMemory.MemoryStorage.SqlServer" Version="1.3.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
         <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.27.240205.2" />
