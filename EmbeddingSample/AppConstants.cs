@@ -15,6 +15,7 @@ internal class AppConstants
         public const string Endpoint = "https://<my-resource-name>.openai.azure.com";
         public const string ApiKey = "";
         public const string Deployment = "text-embedding-ada-002";
+        public const int MaxTokens = 8_191;   // The max number of tokens supported by the model.
     }
 
     public class Memory

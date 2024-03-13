@@ -16,7 +16,7 @@ var kernelMemory = new KernelMemoryBuilder()
         Deployment = AppConstants.Embedding.Deployment,
         Endpoint = AppConstants.Embedding.Endpoint,
         APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
-        MaxTokenTotal = 8191
+        MaxTokenTotal = AppConstants.Embedding.MaxTokens
     })
     // If you want to use OpenAI, you need to call .WithOpenAITextGeneration (with corresponding parameters).
     .WithAzureOpenAITextGeneration(new()
