@@ -33,7 +33,7 @@ var kernelMemory = new KernelMemoryBuilder()
     .WithSearchClientConfig(new()
     {
         EmptyAnswer = "I'm sorry, I haven't found any relevant information that can be used to answer your question",
-        MaxMatchesCount = 10,
+        MaxMatchesCount = 25,
         AnswerTokens = 800
     })
     .WithCustomTextPartitioningOptions(new()
@@ -80,7 +80,7 @@ do
     question = await CreateQuestionAsync(question);
 
     // Asks using the embedding search via Kernel Memory and the reformulated question.
-    var answer = await kernelMemory.AskAsync(question, minRelevance: 0.76);
+    var answer = await kernelMemory.AskAsync(question);
 
     if (answer.NoResult == false)
     {

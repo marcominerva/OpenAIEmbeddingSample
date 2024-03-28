@@ -7,7 +7,7 @@ internal class AppConstants
         public const string Endpoint = "https://<my-resource-name>.openai.azure.com";
         public const string ApiKey = "";
         public const string Deployment = "gpt-4";
-        public const int MaxTokens = 4_096;   // The max number of tokens supported by the model.
+        public const int MaxTokens = 8_192;   // The max number of tokens supported by the model.
     }
 
     public class Embedding
