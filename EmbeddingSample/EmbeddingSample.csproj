@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Identity" Version="1.10.4" />
+        <PackageReference Include="Azure.Identity" Version="1.11.0" />
         <PackageReference Include="KernelMemory.MemoryStorage.SqlServer" Version="1.6.3" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
