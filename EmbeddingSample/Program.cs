@@ -28,8 +28,6 @@ var kernelMemory = new KernelMemoryBuilder()
         APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
         MaxTokenTotal = AppConstants.ChatCompletion.MaxTokens
     })
-    //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent Content Storage oh file system.    
-    .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Vector Storage for embeddings.
     .WithSearchClientConfig(new()
     {
         EmptyAnswer = "I'm sorry, I haven't found any relevant information that can be used to answer your question",
@@ -43,6 +41,8 @@ var kernelMemory = new KernelMemoryBuilder()
         MaxTokensPerLine = 300,
         OverlappingTokens = 100
     })
+    //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent Content Storage oh file system.    
+    .WithSqlServerMemoryDb(AppConstants.Memory.ConnectionString)    // Use SQL Server as Vector Storage for embeddings.
     .Build<MemoryServerless>();
 
 var builder = Kernel.CreateBuilder();
