@@ -10,7 +10,7 @@
         <PackageReference Include="KernelMemory.MemoryStorage.SqlServer" Version="1.6.3" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-        <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.36.240416.1" />
+        <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.37.240420.2" />
     </ItemGroup>
     
 </Project>
