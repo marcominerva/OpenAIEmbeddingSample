@@ -1,5 +1,4 @@
 ﻿using EmbeddingSample;
-using KernelMemory.MemoryStorage.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.KernelMemory;
