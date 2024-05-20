@@ -95,7 +95,7 @@ do
         Console.WriteLine("Sources:");
         foreach (var source in answer.RelevantSources)
         {
-            Console.WriteLine($"- {source.SourceUrl ?? source.SourceName}");
+            Console.WriteLine($"- {source.SourceName}");
         }
     }
     else
