@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.KernelMemory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 var kernelMemory = new KernelMemoryBuilder()
     // If you want to use OpenAI, you need to call .WithOpenAITextEmbeddingGeneration (with corresponding parameters).

@@ -9,7 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
-        <PackageReference Include="Microsoft.KernelMemory" Version="0.90.241020.3" />
+        <PackageReference Include="Microsoft.KernelMemory" Version="0.90.241021.1" />
     </ItemGroup>
     
 </Project>
