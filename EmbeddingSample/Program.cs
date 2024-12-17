@@ -6,7 +6,13 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 var kernelMemory = new KernelMemoryBuilder()
-    // If you want to use OpenAI, you need to call .WithOpenAITextEmbeddingGeneration (with corresponding parameters).
+    .With(new KernelMemoryConfig
+    {
+        DataIngestion = new()
+        {
+            DefaultSteps = [.. Constants.DefaultPipeline, Constants.PipelineStepsDeleteGeneratedFiles]
+        }
+    })
     .WithAzureOpenAITextEmbeddingGeneration(new()
     {
         APIKey = AppConstants.Embedding.ApiKey,
@@ -16,7 +22,6 @@ var kernelMemory = new KernelMemoryBuilder()
         APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
         MaxTokenTotal = AppConstants.Embedding.MaxTokens
     })
-    // If you want to use OpenAI, you need to call .WithOpenAITextGeneration (with corresponding parameters).
     .WithAzureOpenAITextGeneration(new()
     {
         APIKey = AppConstants.ChatCompletion.ApiKey,
@@ -47,17 +52,21 @@ var builder = Kernel.CreateBuilder();
 
 builder.Services.AddLogging(builder => builder.AddConsole());
 builder.Services
-    // If you want to use OpenAI, you need to call .AddOpenAIChatCompletion (with corresponding parameters).
     .AddAzureOpenAIChatCompletion(AppConstants.ChatCompletion.Deployment, AppConstants.ChatCompletion.Endpoint, AppConstants.ChatCompletion.ApiKey);
 
 var kernel = builder.Build();
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
-// Import documents and web pages into Kernel Memory. The following instructions read, split in chunks and store the embeddings of the documents
-// into Kernel Memory Vector Storage (SQL Server in this example, but other destinations are available). The embeddings are persisted, so you need to
-// import the documents only once (unless you want to update the embeddings).
+//var tags = new TagCollection
+//{
+//    { "userId", "42" },
+//    { "category", "cities" }
+//};
 
-//await kernelMemory.ImportDocumentAsync(@"Taggia.pdf");
+//await kernelMemory.ImportDocumentAsync(@"D:\Taggia.pdf");
+
+//var tokenizer = new GPT4oTokenizer();
+//var tokenCount = tokenizer.CountTokens("Oggi è una bella giornata, domani chissà come sara?!");
 
 var chat = new ChatHistory();
 
@@ -78,6 +87,9 @@ do
     question = await CreateQuestionAsync(question);
 
     // Asks using the embedding search via Kernel Memory and the reformulated question.
+    //var context = new RequestContext();
+    //context.SetArg(Constants.CustomContext.Rag.EmptyAnswer, "I haven't found the answer");
+
     var answer = await kernelMemory.AskAsync(question);
 
     if (answer.NoResult == false)
