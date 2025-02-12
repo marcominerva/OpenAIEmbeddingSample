@@ -41,7 +41,6 @@ var kernelMemory = new KernelMemoryBuilder()
     {
         // Defines the properties that are used to split the documents in chunks.
         MaxTokensPerParagraph = 1000,
-        MaxTokensPerLine = 300,
         OverlappingTokens = 100
     })
     //.WithSimpleFileStorage(AppConstants.Memory.ContentStoragePath)  // Uncomment to use persistent Content Storage oh file system.    
